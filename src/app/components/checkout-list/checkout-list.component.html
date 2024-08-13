@@ -1,0 +1,30 @@
+<main class="p-4">
+  <div class="text-2xl font-bold mb-6">List of Purchase items</div>
+
+  @if (productLists.length > 0) {
+  <div class="gap-5 flex flex-col">
+    @for (product of productLists; track product.id) {
+    <mat-card>
+      <mat-card-content>
+        <div class="flex flex-row justify-between items-center">
+          <div>
+            <mat-card-title>{{ product.name }}</mat-card-title>
+            <mat-card-subtitle>{{ product.productCode }}</mat-card-subtitle>
+            <p>{{ product.description }}</p>
+          </div>
+          <div>
+            <button mat-mini-fab (click)="removeListItem(product.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    }
+  </div>
+  } @else {
+  <div class="h-full w-full flex justify-center items-center text-xl">
+    Please add products from Home page to view here!
+  </div>
+  }
+</main>
