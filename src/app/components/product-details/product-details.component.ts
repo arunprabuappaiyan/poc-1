@@ -1,11 +1,14 @@
 import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { Product } from '../../models/product.model';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'poc-product-details',
   standalone: true,
-  imports: [],
+  imports: [
+    MatButtonModule
+  ],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
@@ -21,4 +24,7 @@ export class ProductDetailsComponent {
     this.productDetails = this.locationState.productData;
   }
 
+  addToListSig(){
+    alert('Added to cart')
+  }
 }
