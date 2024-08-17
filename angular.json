@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "baseHref": "/power-poc/",
-            "outputPath": "dist/power-poc",
+            "outputPath": "docs/power-poc",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
