@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "baseHref": "https://arunprabuappaiyan.github.io/power-poc/",
+            "baseHref": "/power-poc/",
             "outputPath": "dist/power-poc",
             "index": "src/index.html",
             "browser": "src/main.ts",
