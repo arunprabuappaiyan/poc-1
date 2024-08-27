@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { ShellComponent } from './shell.component';
-import { HomeComponent } from '../components/home/home.component';
 
 export const SHELL_ROUTES: Routes = [
   {
@@ -8,29 +7,29 @@ export const SHELL_ROUTES: Routes = [
     component: ShellComponent,
     children: [
       {
-        path: 'home',
-        loadComponent: () =>
-          import('../components/home/home.component').then(
-            (c) => c.HomeComponent
+        path: 'dashboard',
+        loadChildren: () =>
+          import('../components/dashboard/home.router').then(
+            (r) => r.HOME_ROUTES
           ),
       },
       {
-        path: 'checkout-lists',
-        loadComponent: () =>
-          import('../components/checkout-list/checkout-list.component').then(
-            (c) => c.CheckoutListComponent
+        path: 'products',
+        loadChildren: () =>
+          import('../components/products/products.route').then(
+            (r) => r.PRODUCTS_ROUTES
           ),
       },
       {
-        path: 'product-details',
-        loadComponent: () =>
-          import('../components/product-details/product-details.component').then(
-            (c) => c.ProductDetailsComponent
+        path: 'employees',
+        loadChildren: () =>
+          import('../components/employees/employees.route').then(
+            (r) => r.EMPLOYEES_ROUTES
           ),
       },
       {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'dashboard',
         pathMatch: 'full',
       },
     ],

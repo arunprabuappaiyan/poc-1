@@ -31,33 +31,18 @@ export class SideMenuComponent {
   constructor(public service: CommonService) {
     this.sideNavItems = [
       {
-        name: 'Home',
-        routerLink: 'home',
+        name: 'Dashboard',
+        routerLink: 'dashboard',
         isDisabled: false,
       },
       {
-        name: 'Purchase Lists',
-        routerLink: 'checkout-lists',
+        name: 'Products',
+        routerLink: 'products',
         isDisabled: false,
       },
       {
-        name: 'Customers',
-        routerLink: '**',
-        isDisabled: true,
-      },
-      {
-        name: 'Contact',
-        routerLink: '**',
-        isDisabled: true,
-      },
-      {
-        name: 'Users',
-        routerLink: '**',
-        isDisabled: true,
-      },
-      {
-        name: 'About',
-        routerLink: '**',
+        name: 'Employees',
+        routerLink: 'employees',
         isDisabled: true,
       },
     ]

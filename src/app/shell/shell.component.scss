@@ -6,10 +6,9 @@
 
 .tool-height {
     height: 64px !important;
-    background: #d7e3ff !important;
-    color: #005cbb !important;
 }
 
 .app-content {
+    max-width: 1200px;
     min-height: calc(100vh - 64px);
 }

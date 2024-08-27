@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 
@@ -16,7 +17,8 @@ import { Router } from '@angular/router';
     MatInputModule,
     ReactiveFormsModule,
     MatFormFieldModule,
-    CommonModule
+    CommonModule,
+    MatIconModule,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -41,7 +43,7 @@ export class LoginComponent {
   }
 
   login(): void {
-    this._router.navigate(["shell/home"]);
+    this._router.navigate(["shell/dashboard"]);
   }
 
 }

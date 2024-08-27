@@ -3,17 +3,17 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonService } from '../../services/common.service';
-import { Product } from '../../models/product.model';
+import { CommonService } from '../../../services/common.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatBadgeModule } from '@angular/material/badge';
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
+import { Product } from '../../../models/product.model';
 
 @Component({
-  selector: 'poc-home',
+  selector: 'poc-products',
   standalone: true,
   imports: [
     MatCardModule,
@@ -24,11 +24,12 @@ import { Router } from '@angular/router';
     MatInputModule,
     FormsModule,
     MatBadgeModule,
+    RouterOutlet,
   ],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  templateUrl: './products.component.html',
+  styleUrl: './products.component.scss',
 })
-export class HomeComponent implements OnInit {
+export class ProductsComponent implements OnInit {
   searchTerm: string = '';
   filteredProducts: Product[] = [];
 
@@ -47,8 +48,8 @@ export class HomeComponent implements OnInit {
       const searchTerms = this.searchTerm.toLowerCase().split(' ');
       return searchTerms.some((term) => {
         return (
-          product.name.toLowerCase().includes(term) ||
-          product.category.toLowerCase().includes(term) ||
+          product.description.toLowerCase().includes(term) ||
+          product.itemGroup.toLowerCase().includes(term) ||
           product.productCode.toLowerCase().includes(term)
         );
       });
@@ -64,13 +65,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  viewList(): void {
-    this._router.navigate(['shell/checkout-lists']);
-  }
-
   productDetailsPage(product: Product): void {
-    this._router.navigateByUrl('shell/product-details', {
-      state: { productData: product }
-    })
+    this._router.navigateByUrl('shell/products/product-details', {
+      state: { productData: product },
+    });
   }
 }

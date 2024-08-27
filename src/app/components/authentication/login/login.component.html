@@ -1,0 +1,42 @@
+<main class="h-screen w-full bg-cover justify-center items-center flex">
+  <div
+    class="w-full h-full bg-gradient-to-l from-[#d7e3ff] from-50% flex justify-center"
+  >
+    <div class="flex items-center">
+      <mat-card class="w-full sm:max-w-sm md:max-w-md m-auto !bg-white">
+        <mat-card-content class="!p-9">
+          <div class="text-center">
+            <img src="https://mma.prnewswire.com/media/2416748/Fuji_Electric_Logo.jpg" alt="logo">
+          </div>
+
+          <form [formGroup]="loginFormGroup" class="mt-8">
+            <mat-form-field appearance="outline" class="w-full mb-3">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" required />
+              <mat-error *ngIf="hasError('email', 'required')">
+                Email is required
+              </mat-error>
+              <mat-error *ngIf="hasError('email', 'email')">
+                Invalid email address
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full mb-3">
+              <mat-label>Password</mat-label>
+              <input matInput formControlName="password" required />
+              <mat-error> Password is required </mat-error>
+            </mat-form-field>
+            <button
+              mat-flat-button
+              [disabled]="loginFormGroup.invalid"
+              (click)="login()"
+              class="w-full"
+            >
+              Login
+            </button>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,46 @@
+<main>
+  <div class="text-2xl font-bold mb-6">Products</div>
+
+  <div class="flex justify-between sm:block md:flex mb-4">
+    <mat-form-field appearance="outline" class="w-full md:w-1/4">
+      <mat-label>Search</mat-label>
+      <input
+        type="text"
+        matInput
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+      />
+      <mat-icon matIconPrefix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="">Filter by Category</div>
+  </div>
+
+    <div class="container mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-4">
+        @for (product of filteredProducts; track product.id) {
+        <div (click)="productDetailsPage(product)" class="cursor-pointer">
+          <mat-card class="p-6 sm:min-h-[400px] md:min-h-[450px]">
+            <div class="flex justify-center">
+              <img
+                mat-card-image
+                [src]="product.image"
+                alt="{{ product.productCode }}"
+                class="rounded-xl w-40 h-48"
+              />
+            </div>
+            <mat-card-content class="mt-4 pad0">
+              <mat-card-subtitle class="!mb-3">
+                {{ product.productCode }}
+              </mat-card-subtitle>
+              <div class="mr-2">Category: {{ product.itemGroup }}</div>
+              <p>Price: &#x20b9;{{ product.rmc }}</p>
+              <p>Description: {{ product.description }}</p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        }
+      </div>
+    </div>
+  <router-outlet></router-outlet>
+</main>
