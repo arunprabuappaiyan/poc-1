@@ -1,6 +1,6 @@
 <main class="min-h-[85vh]">
   <div
-    class="min-h-[inherit] flex flex-row sm:flex-col sm:flex-wrap sm:gap-5 sm:items-center lg:flex-row lg:items-start lg:gap-0"
+    class="ml-24 min-h-[inherit] flex flex-row sm:flex-col sm:flex-wrap sm:gap-5 sm:items-center lg:flex-row lg:items-start lg:gap-0"
   >
     <section class="w-2/5 sm:w-full lg:w-2/5 flex flex-col gap-4">
       <div class="!flex !justify-center">
@@ -40,310 +40,457 @@
       <h3>Product Name</h3>
 
       <mat-accordion class="example-headers-align">
-
-        <mat-expansion-panel [expanded]="step() === 0" (opened)="setStep(0)">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Falcon </mat-panel-title>
-            <mat-panel-description> Choose unity model </mat-panel-description>
-          </mat-expansion-panel-header>
-
-          <div class="flex">
-            <mat-form-field appearance="outline">
-              <mat-label>Variant</mat-label>
-              <mat-select>
-                <mat-option value="1">Falcon X7 500KVA</mat-option>
-                <mat-option value="2">Falcon X7 400KVA</mat-option>
-                <mat-option value="3">Falcon X7 300KVA</mat-option>
-                <mat-option value="4">Falcon X7+ 80KVA</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="w-1/6">
-              <mat-label>Nos</mat-label>
-              <input matInput type="number" />
-            </mat-form-field>
-            <div class="flex mt-2">
-              <button mat-icon-button>
-                <mat-icon>remove</mat-icon>
-              </button>
-              <button mat-icon-button>
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
-          </div>
-
-          <mat-action-row>
-            <div
-              class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+        <form [formGroup]="productsFG">
+          <ng-container formGroupName="falcon">
+            <mat-expansion-panel
+              [expanded]="step() === 0"
+              (opened)="setStep(0)"
             >
-              <p class="!m-0">Selected item cost: &#x20b9;{{ "" }}</p>
-              <div>
-                <button mat-button (click)="nextStep()">Next</button>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Falcon </mat-panel-title>
+                <mat-panel-description>
+                  Choose unity model
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="flex mt-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Variant</mat-label>
+                  <mat-select formControlName="variantCost">
+                    @for (item of PRODUCT_DATA.falcon; track $index) {
+                    <mat-option [value]="item.cost">{{
+                      item.variant
+                    }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-1/6">
+                  <mat-label>Nos</mat-label>
+                  <input matInput type="number" formControlName="nos" />
+                </mat-form-field>
+                <div class="flex mt-2 ml-2">
+                  <button
+                    mat-icon-button
+                    (click)="reduce('falcon', 'nos')"
+                    [disabled]="
+                      getFromGroup('falcon').controls['variantCost'].invalid
+                    "
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    (click)="add('falcon', 'nos')"
+                    [disabled]="
+                      getFromGroup('falcon').controls['variantCost'].invalid
+                    "
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
               </div>
-            </div>
-          </mat-action-row>
-        </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step() === 1" (opened)="setStep(1)">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Modbus </mat-panel-title>
-            <mat-panel-description> Choose unity model </mat-panel-description>
-          </mat-expansion-panel-header>
+              <mat-action-row>
+                <div
+                  class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+                >
+                  <p class="!m-0">
+                    Selected item cost:
+                    {{
+                      (getFromGroup("falcon").controls["variantCost"].valid
+                        ? calculateProductCost(
+                            +getFromGroup("falcon").controls["variantCost"]
+                              .value,
+                            +getFromGroup("falcon").controls["nos"].value
+                          )
+                        : 0
+                      ) | currency : "INR"
+                    }}
+                  </p>
+                  <div>
+                    <button mat-button (click)="nextStep()">Next</button>
+                  </div>
+                </div>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </ng-container>
 
-          <div class="flex">
-            <mat-form-field appearance="outline">
-              <mat-label>Variant</mat-label>
-              <mat-select>
-                <mat-option value="1">Modbus RS232/RS485</mat-option>
-                <mat-option value="2">Modbus RS333/RS555</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="w-1/6">
-              <mat-label>Nos</mat-label>
-              <input matInput type="number" />
-            </mat-form-field>
-            <div class="flex mt-2">
-              <button mat-icon-button>
-                <mat-icon>remove</mat-icon>
-              </button>
-              <button mat-icon-button>
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
-          </div>
-
-          <mat-action-row>
-            <div
-              class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+          <ng-container formGroupName="modbus">
+            <mat-expansion-panel
+              [expanded]="step() === 1"
+              (opened)="setStep(1)"
             >
-              <p class="!m-0">Selected item cost: &#x20b9;{{ "" }}</p>
-              <div>
-                <button mat-button (click)="prevStep()">Previous</button>
-                <button mat-button (click)="nextStep()">Next</button>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Modbus </mat-panel-title>
+                <mat-panel-description>
+                  Choose unity model
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="flex mt-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Variant</mat-label>
+                  <mat-select formControlName="variantCost">
+                    @for (item of PRODUCT_DATA.modbus; track $index) {
+                    <mat-option [value]="item.cost">{{
+                      item.variant
+                    }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-1/6">
+                  <mat-label>Nos</mat-label>
+                  <input matInput type="number" formControlName="nos" />
+                </mat-form-field>
+                <div class="flex mt-2">
+                  <button
+                    mat-icon-button
+                    (click)="reduce('modbus', 'nos')"
+                    [disabled]="
+                      getFromGroup('modbus').controls['variantCost'].invalid
+                    "
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    (click)="add('modbus', 'nos')"
+                    [disabled]="
+                      getFromGroup('modbus').controls['variantCost'].invalid
+                    "
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
               </div>
-            </div>
-          </mat-action-row>
-        </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step() === 2" (opened)="setStep(2)">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Battery </mat-panel-title>
-            <mat-panel-description> Choose battery </mat-panel-description>
-          </mat-expansion-panel-header>
+              <mat-action-row>
+                <div
+                  class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+                >
+                  <p class="!m-0">
+                    Selected item cost:
+                    {{
+                      (getFromGroup("modbus").controls["variantCost"].valid
+                        ? calculateProductCost(
+                            +getFromGroup("modbus").controls["variantCost"]
+                              .value,
+                            +getFromGroup("modbus").controls["nos"].value
+                          )
+                        : 0
+                      ) | currency : "INR"
+                    }}
+                  </p>
+                  <div>
+                    <button mat-button (click)="prevStep()">Previous</button>
+                    <button mat-button (click)="nextStep()">Next</button>
+                  </div>
+                </div>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </ng-container>
 
-          <div class="flex">
-            <mat-form-field appearance="outline">
-              <mat-label>Variant</mat-label>
-              <mat-select>
-                <mat-option value="1">Battery 12V  100AH Exide</mat-option>
-                <mat-option value="2">Battery 12V  200AH Exide</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="w-1/6">
-              <mat-label>Nos</mat-label>
-              <input matInput type="number" />
-            </mat-form-field>
-            <div class="flex mt-2">
-              <button mat-icon-button>
-                <mat-icon>remove</mat-icon>
-              </button>
-              <button mat-icon-button>
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
-          </div>
-
-          <mat-action-row>
-            <div
-              class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+          <ng-container formGroupName="battery">
+            <mat-expansion-panel
+              [expanded]="step() === 2"
+              (opened)="setStep(2)"
             >
-              <p class="!m-0">Selected item cost: &#x20b9;{{ "" }}</p>
-              <div>
-                <button mat-button (click)="prevStep()">Previous</button>
-                <button mat-button (click)="nextStep()">Next</button>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Battery </mat-panel-title>
+                <mat-panel-description> Choose battery </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="flex mt-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Variant</mat-label>
+                  <mat-select formControlName="variantCost">
+                    @for (item of PRODUCT_DATA.battery; track $index) {
+                    <mat-option [value]="item.cost">{{
+                      item.variant
+                    }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-1/6">
+                  <mat-label>Nos</mat-label>
+                  <input matInput type="number" formControlName="nos" />
+                </mat-form-field>
+                <div class="flex mt-2">
+                  <button
+                    mat-icon-button
+                    (click)="reduce('battery', 'nos')"
+                    [disabled]="
+                      getFromGroup('battery').controls['variantCost'].invalid
+                    "
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    (click)="add('battery', 'nos')"
+                    [disabled]="
+                      getFromGroup('battery').controls['variantCost'].invalid
+                    "
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
               </div>
-            </div>
-          </mat-action-row>
-        </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step() === 3" (opened)="setStep(3)">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Accessories </mat-panel-title>
-            <mat-panel-description> Add Accessories </mat-panel-description>
-          </mat-expansion-panel-header>
+              <mat-action-row>
+                <div
+                  class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+                >
+                  <p class="!m-0">
+                    Selected item cost:
+                    {{
+                      (getFromGroup("battery").controls["variantCost"].valid
+                        ? calculateProductCost(
+                            +getFromGroup("battery").controls["variantCost"]
+                              .value,
+                            +getFromGroup("battery").controls["nos"].value
+                          )
+                        : 0
+                      ) | currency : "INR"
+                    }}
+                  </p>
+                  <div>
+                    <button mat-button (click)="prevStep()">Previous</button>
+                    <button mat-button (click)="nextStep()">Next</button>
+                  </div>
+                </div>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </ng-container>
 
-          <div class="flex">
-            <mat-form-field appearance="outline">
-              <mat-label>Variant</mat-label>
-              <mat-select>
-                <mat-option value="1">Battery Rack & IRIT</mat-option>
-                <mat-option value="2">Battery Breaker with 630A </mat-option>
-                <mat-option value="3">UPS to battery breaker box cable</mat-option>
-                <mat-option value="4">UPS Base Frame 300mm</mat-option>
-                <mat-option value="5">Battery base frame 300mm</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="w-1/6">
-              <mat-label>Nos</mat-label>
-              <input matInput type="number" />
-            </mat-form-field>
-            <div class="flex mt-2">
-              <button mat-icon-button>
-                <mat-icon>remove</mat-icon>
-              </button>
-              <button mat-icon-button>
-                <mat-icon>add</mat-icon>
-              </button>
-            </div>
-          </div>
-
-          <mat-action-row>
-            <div
-              class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+          <ng-container formGroupName="accessories">
+            <mat-expansion-panel
+              [expanded]="step() === 3"
+              (opened)="setStep(3)"
             >
-              <p class="!m-0">Selected item cost: &#x20b9;{{ "" }}</p>
-              <div>
-                <button mat-button (click)="prevStep()">Previous</button>
-                <button mat-button (click)="nextStep()">Next</button>
+              <mat-expansion-panel-header>
+                <mat-panel-title> Accessories </mat-panel-title>
+                <mat-panel-description> Add Accessories </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="flex mt-3">
+                <mat-form-field appearance="outline">
+                  <mat-label>Variant</mat-label>
+                  <mat-select formControlName="variantCost">
+                    @for (item of PRODUCT_DATA.accessories; track $index) {
+                    <mat-option [value]="item.cost">{{
+                      item.variant
+                    }}</mat-option>
+                    }
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-1/6">
+                  <mat-label>Nos</mat-label>
+                  <input matInput type="number" formControlName="nos" />
+                </mat-form-field>
+                <div class="flex mt-2">
+                  <button
+                    mat-icon-button
+                    (click)="reduce('accessories', 'nos')"
+                    [disabled]="
+                      getFromGroup('accessories').controls['variantCost']
+                        .invalid
+                    "
+                  >
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    (click)="add('accessories', 'nos')"
+                    [disabled]="
+                      getFromGroup('accessories').controls['variantCost']
+                        .invalid
+                    "
+                  >
+                    <mat-icon>add</mat-icon>
+                  </button>
+                </div>
               </div>
-            </div>
-          </mat-action-row>
-        </mat-expansion-panel>
 
-        <mat-expansion-panel [expanded]="step() === 4" (opened)="setStep(4)">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Warranty </mat-panel-title>
-            <mat-panel-description> Choose Warranty </mat-panel-description>
-          </mat-expansion-panel-header>
+              <mat-action-row>
+                <div
+                  class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+                >
+                  <p class="!m-0">
+                    Selected item cost:
+                    {{
+                      (getFromGroup("accessories").controls["variantCost"].valid
+                        ? calculateProductCost(
+                            +getFromGroup("accessories").controls["variantCost"]
+                              .value,
+                            +getFromGroup("accessories").controls["nos"].value
+                          )
+                        : 0
+                      ) | currency : "INR"
+                    }}
+                  </p>
+                  <div>
+                    <button mat-button (click)="prevStep()">Previous</button>
+                    <button mat-button (click)="nextStep()">Next</button>
+                  </div>
+                </div>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </ng-container>
 
-          <div class="flex">
-            <mat-form-field appearance="outline">
-              <mat-label>Ex.Period</mat-label>
-              <mat-select>
-                <mat-option value="1">1</mat-option>
-                <mat-option value="2">2</mat-option>
-                <mat-option value="3">3</mat-option>
-              </mat-select>
-            </mat-form-field>
+          <!-- <ng-container formGroupName="warranty"> -->
+          <!-- [expanded]="step() === 4" (opened)="setStep(4)" -->
+          <mat-expansion-panel [disabled]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title> Warranty </mat-panel-title>
+              <mat-panel-description> Choose Warranty </mat-panel-description>
+            </mat-expansion-panel-header>
 
-            <!-- <mat-form-field appearance="outline" class="w-1/6">
-              <mat-label>Nos</mat-label>
-              <input matInput type="number" />
-            </mat-form-field>
-            <div class="flex mt-2">
-              <button mat-icon-button>
-                <mat-icon>remove</mat-icon>
-              </button>
-              <button mat-icon-button>
-                <mat-icon>add</mat-icon>
-              </button>
-            </div> -->
-          </div>
-
-          <mat-action-row>
-            <div
-              class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
-            >
-              <p class="!m-0">Selected item cost: &#x20b9;{{ "" }}</p>
-              <div>
-                <button mat-button (click)="prevStep()">Previous</button>
-                <button mat-button (click)="nextStep()">Next</button>
-              </div>
-            </div>
-          </mat-action-row>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel [expanded]="step() === 5" (opened)="setStep(5)">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Discount </mat-panel-title>
-            <mat-panel-description> Apply Discount </mat-panel-description>
-          </mat-expansion-panel-header>
-
-          <div class="flex flex-col">
-            <div class="flex flex-row">
-              <mat-form-field appearance="outline" class="w-1/2">
-                <mat-label>Warranty</mat-label>
-                <mat-select>
+            <div class="flex">
+              <mat-form-field appearance="outline">
+                <mat-label>Ex.Period</mat-label>
+                <mat-select formControlName="warranty">
                   <mat-option value="1">1</mat-option>
                   <mat-option value="2">2</mat-option>
                   <mat-option value="3">3</mat-option>
                 </mat-select>
               </mat-form-field>
-  
-              <mat-form-field appearance="outline" class="w-1/2">
-                <mat-label>Labour</mat-label>
-                <mat-select>
-                  <mat-option value="1">1</mat-option>
-                  <mat-option value="2">2</mat-option>
-                  <mat-option value="3">3</mat-option>
-                </mat-select>
+
+              <!-- <mat-form-field appearance="outline" class="w-1/6">
+                <mat-label>Nos</mat-label>
+                <input matInput type="number" />
               </mat-form-field>
+              <div class="flex mt-2">
+                <button mat-icon-button>
+                  <mat-icon>remove</mat-icon>
+                </button>
+                <button mat-icon-button>
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div> -->
             </div>
 
-            <div class="flex flex-row">
-              <mat-form-field appearance="outline" class="w-1/2">
-                <mat-label>Overheads</mat-label>
-                <mat-select>
-                  <mat-option value="1">1</mat-option>
-                  <mat-option value="2">2</mat-option>
-                  <mat-option value="3">3</mat-option>
-                </mat-select>
-              </mat-form-field>
-  
-              <mat-form-field appearance="outline" class="w-1/2">
-                <mat-label>Freight</mat-label>
-                <mat-select>
-                  <mat-option value="1">1</mat-option>
-                  <mat-option value="2">2</mat-option>
-                  <mat-option value="3">3</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
+            <mat-action-row>
+              <div
+                class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+              >
+                <p class="!m-0">Selected item cost: &#x20b9;{{ "" }}</p>
+                <div>
+                  <button mat-button (click)="prevStep()">Previous</button>
+                  <button mat-button (click)="nextStep()">Next</button>
+                </div>
+              </div>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <!-- </ng-container> -->
 
-            <div class="flex flex-row">
-              <mat-form-field appearance="outline" class="w-1/2">
-                <mat-label>I&C</mat-label>
-                <mat-select>
-                  <mat-option value="1">1</mat-option>
-                  <mat-option value="2">2</mat-option>
-                  <mat-option value="3">3</mat-option>
-                </mat-select>
-              </mat-form-field>
-  
-              <mat-form-field appearance="outline" class="w-1/2">
-                <mat-label>Unloading</mat-label>
-                <mat-select>
-                  <mat-option value="1">1</mat-option>
-                  <mat-option value="2">2</mat-option>
-                  <mat-option value="3">3</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-          </div>
+          <!-- <ng-container formGroupName="falcon"> -->
+          <!-- [expanded]="step() === 5" (opened)="setStep(5)" -->
+          <mat-expansion-panel [disabled]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title> Discount </mat-panel-title>
+              <mat-panel-description> Apply Discount </mat-panel-description>
+            </mat-expansion-panel-header>
 
-          <mat-action-row>
-            <div
-              class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
-            >
-              <p class="!m-0">Selected item cost: &#x20b9;{{ "" }}</p>
-              <div>
-                <button mat-button (click)="prevStep()">Previous</button>
-                <button mat-button (click)="nextStep()">Close</button>
+            <div class="flex flex-col">
+              <div class="flex flex-row">
+                <mat-form-field appearance="outline" class="w-1/2">
+                  <mat-label>Warranty</mat-label>
+                  <mat-select>
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-1/2">
+                  <mat-label>Labour</mat-label>
+                  <mat-select>
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="flex flex-row">
+                <mat-form-field appearance="outline" class="w-1/2">
+                  <mat-label>Overheads</mat-label>
+                  <mat-select>
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-1/2">
+                  <mat-label>Freight</mat-label>
+                  <mat-select>
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="flex flex-row">
+                <mat-form-field appearance="outline" class="w-1/2">
+                  <mat-label>I&C</mat-label>
+                  <mat-select>
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-1/2">
+                  <mat-label>Unloading</mat-label>
+                  <mat-select>
+                    <mat-option value="1">1</mat-option>
+                    <mat-option value="2">2</mat-option>
+                    <mat-option value="3">3</mat-option>
+                  </mat-select>
+                </mat-form-field>
               </div>
             </div>
-          </mat-action-row>
-        </mat-expansion-panel>
 
+            <mat-action-row>
+              <div
+                class="flex w-[-webkit-fill-available] flex-wrap justify-between items-center"
+              >
+                <p class="!m-0">Selected item cost: &#x20b9;{{ "" }}</p>
+                <div>
+                  <button mat-button (click)="prevStep()">Previous</button>
+                  <button mat-button (click)="nextStep()">Close</button>
+                </div>
+              </div>
+            </mat-action-row>
+          </mat-expansion-panel>
+          <!-- </ng-container> -->
+        </form>
       </mat-accordion>
     </section>
   </div>
 </main>
+
 <footer class="checkout-overlay">
-  <div>arun</div>
-  <div>arun</div>
-  <div>arun</div>
-  <div>arun</div>
+  <div class="h-full grid grid-cols-2 items-center">
+    <div class="flex justify-end">
+      <h3 class="!m-0 font-medium">Product Total Cost: &nbsp;</h3>
+      <div class="flex items-center font-bold text-3xl">
+        {{ totalProductCost | currency:'INR' }}
+      </div>
+    </div>
+    <div class="ml-9">
+      <button 
+        mat-flat-button
+      >
+        Get Invoice
+      </button>
+    </div>
+  </div>
 </footer>
