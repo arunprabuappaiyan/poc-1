@@ -39,8 +39,8 @@
     <section class="w-3/5 sm:w-full lg:w-3/5 sm:p-0 md:px-4">
       <h3>Product Name</h3>
 
-      <mat-accordion class="example-headers-align">
-        <form [formGroup]="productsFG">
+      <form [formGroup]="productsFG">
+        <mat-accordion class="example-headers-align">
           <ng-container formGroupName="falcon">
             <mat-expansion-panel
               [expanded]="step() === 0"
@@ -471,8 +471,8 @@
             </mat-action-row>
           </mat-expansion-panel>
           <!-- </ng-container> -->
-        </form>
-      </mat-accordion>
+        </mat-accordion>
+      </form>
     </section>
   </div>
 </main>
@@ -482,15 +482,11 @@
     <div class="flex justify-end">
       <h3 class="!m-0 font-medium">Product Total Cost: &nbsp;</h3>
       <div class="flex items-center font-bold text-3xl">
-        {{ totalProductCost | currency:'INR' }}
+        {{ totalProductCost | currency : "INR" }}
       </div>
     </div>
     <div class="ml-9">
-      <button 
-        mat-flat-button
-      >
-        Get Invoice
-      </button>
+      <button mat-flat-button>Get Invoice</button>
     </div>
   </div>
 </footer>
